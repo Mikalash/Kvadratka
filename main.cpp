@@ -1,6 +1,6 @@
 /**
 @file
-Г°ГҐГёГҐГ­ГЁГҐ ГЄГўГ Г¤Г°Г ГІГ­Г»Гµ ГіГ°Г ГўГ­ГҐГ­ГЁГ©
+решение квадратных уравнений
 */
 
 #include <stdio.h>
@@ -9,15 +9,15 @@
 #include <assert.h>
 #include <windows.h>
 //doxygen
-const double ALMOST_0 = 0.00000001;
+const double ALMOST_0 = 0.0001;
 
 
 /**
-Г‡Г Г¤Г ВёГІ Г§Г­Г Г·ГҐГ­ГЁГї, ГЄГ®ГІГ®Г°Г»ГҐ ГЎГіГ¤ГіГІ ГўГ®Г§ГўГ°Г Г№Г ГІГј ГґГіГ­ГЄГ¶ГЁГЁ
-ROOT_1 - 1 ГЄГ®Г°ГҐГ­Гј
-ROOT_2 - 2 ГЄГ®Г°Г­Гї
-ROOT_INF - ГЎГҐГ±ГЄГ®Г­ГҐГ·Г­Г®Г±ГІГј ГЄГ®Г°Г­ГҐГ©
-ROOT_NO - Г­ГҐГІ ГЄГ®Г°Г­ГҐГ©
+\brief Задаёт значения, которые будут возвращать функции
+\param ROOT_1 1 корень
+\param ROOT_2 2 корня
+\param ROOT_INF бесконечность корней
+\param ROOT_NO нет корней
 */
 enum ROOTS {
     ROOT_1 = 1,
@@ -28,32 +28,47 @@ enum ROOTS {
 
 
 /**
-ГЏГ°Г®ГўГҐГ°ГїГҐГІ Г§Г­Г Г·ГҐГ­ГЁГї a,b,c Г­Г  ГІГ®, ГЇГ°ГЁГ­Г Г¤Г«ГҐГ¦Г ГІ Г«ГЁ Г®Г­ГЁ NAN
+\brief Проверяет значения на то, принадлежат ли они NAN
+\param 1е значение
+\param 2е значение
+\param 3е значение
 */
 int input_check (double a, double b, double c);
 
 /**
-Г‘Г°Г ГўГ­ГЁГўГ ГҐГІ Г§Г­Г Г·ГҐГ­ГЁГҐ value c 0
+\brief Сравнивает значение c 0
+\param Значение, сравниваемое с 0
 */
 int cmp_with_0 (double value);
 
 /**
-ГђГҐГёГ ГҐГІ Г«ГЁГ­ГҐГ©Г­ГіГѕ ГґГіГ­ГЄГЁГ¶Гѕ ГўГЁГ¤Г  bx+c=0; x1-Г­Г®Г¬ГҐГ° ГїГ·ГҐГ©ГЄГЁ, Гў ГЄГ®ГІГ®Г°ГіГѕ ГЎГіГ¤ГҐГІ Г±Г®Г±Г«Г Г­ Г®ГІГўГҐГІ.
+\brief Решает линейную функицю вида bx+c=0
+\param значенbt a
+\param значение b
+\param - номер ячейки, в которую будет сослан ответ
 */
 int linear_equation (double b, double c, double* x1);
 
 /**
-ГђГҐГёГ ГҐГІ Г«ГЁГ­ГҐГ©Г­ГіГѕ ГґГіГ­ГЄГЁГ¶Гѕ ГўГЁГ¤Г  ax^2+bx+c=0; x1,x2-Г­Г®Г¬ГҐГ°f ГїГ·ГҐГҐГЄ, Гў ГЄГ®ГІГ®Г°Г»ГҐ ГЎГіГ¤ГҐГІ Г±Г®Г±Г«Г Г­ Г®ГІГўГҐГІ.
+\brief Решает линейную функицю вида ax^2+bx+c=0
+\param - значение a
+\param - значение b
+\param - значение c
+\param - номер ячейки, в которую будет сослан ответ.
+\param - номер ячейки, в которую будет сослан ответ.
 */
 int quadratic_equation (double a, double b, double c, double* x1, double* x2);
 
 /**
-Г‘Г·ГЁГІГ ГҐГІ Г¤ГЁГ±ГЄГ°ГЁГ¬ГЁГ­Г Г­ГІ ГЄГўГ Г¤Г°Г ГІГ­Г®ГЈГ® ГіГ°Г ГўГ­ГҐГ­ГЁГї ГўГЁГ¤Г  ax^2+bx+c=0
+\brief Считает дискриминант квадратного уравнения вида ax^2+bx+c=0
+\param - значение a
+\param - значение b
+\param - значение c
 */
 double discriminant (double a, double b, double c);
 
 /**
-ГЋГ·ГЁГ№Г ГҐГІ ГЎГіГґГҐГ° ГўГўГ®Г¤Г 
+\brief Очищает буфер ввода
 */
 int clear_input ()
 {
@@ -61,11 +76,9 @@ int clear_input ()
 }
 
 /**
-Г’ГҐГ±ГЁГІГЁГ°Г®ГўГ Г­ГЁГҐ
+\brief Теситирование решения квадратного уравнения
 */
 int unit_test();
-
-double round_6(double volume);
 
 int main ()
 {
@@ -176,57 +189,38 @@ double discriminant (double a, double b, double c)
 int unit_test()
 {
     double tests[10][6] = {
-        {1, 4, 2, -0.585786, -3.41421, 2},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 1, 0, 0, 0},
-        {1, 1, 1, 0, 0, 0},
-        {1, 1, 1, 0, 0, 0},
-        {1, 12, 12, -1.10102, -10.899, 2},
-        {2, 5, 3, -1, -1.5, 2},
-        {12, 23, 11, -0.916667, -1, 2},
-        {1, 4, 4, -2, 0, 1},
-        {3, 65, 32, -0.504033, -21.1626, 2}
-    };
+        {1,  4,  2,  -0.585786, -3.41421,  2}, // 1
+        {0,  0,  0,  0,                0, -1}, // 2
+        {0,  0,  1,  0,                0, -2}, // 3
+        {1,  1,  1,  0,                0, -2}, // 4
+        {1,  1,  1,  0,                1, -2}, // 5 error
+        {1,  12, 12, -1.10102,   -10.899,  2}, // 6
+        {2,  5,  3,  -1,            -1.5,  2}, // 7
+        {12, 23, 11, -0.916667,       -1,  2}, // 8
+        {1,  4,  4,  -2,               0,  1}, // 9
+        {3,  65, 32, -0.504033, -21.1626,  2}  // 10
+    };//a,b,c,x1,x2,n_ans
 
     for (int i = 0; i < 10; i++)
     {
         double x1 = 0, x2 = 0;
-        int n_ans = 0;
 
-        n_ans = quadratic_equation (tests[i][0], tests[i][1], tests[i][2], &x1, &x2);
+        int n_ans = quadratic_equation (tests[i][0], tests[i][1], tests[i][2], &x1, &x2);
 
-        x1 = round_6 (x1);
-        x2 = round_6 (x2);
+        //printf("got %d roots (ref. %lg), x1 = %lg (ref. %lg), x2 = %lg (ref. %lg)\n\t", n_ans, tests[i][5], x1, tests[i][3], x2, tests[i][4]);
 
-        //printf("%d %lg %lg %lg %lg %lg\n\t", n_ans, tests[i][5], x1, tests[i][3], x2, tests[i][4]);
+        if (tests[i][5] == n_ans &&
+            cmp_with_0 (x1 - tests[i][3]) &&
+            cmp_with_0 (x2 - tests[i][4]))
 
-        if (tests[i][5] == 2)
-            if (n_ans == 2 && x1 == tests[i][3] && x2 == tests[i][4])
-                printf ("Test number %d - OK\n", i+1);
-            else
-                printf ("Test number %d - ERROR\n", i+1);
-
-        if (tests[i][5] == 1)
-            if (n_ans == 1 && x1 == tests[i][3])
-                printf ("Test number %d - OK\n", i+1);
-            else
-                printf ("Test number %d - ERROR\n", i+1);
-
-        if (tests[i][5] == 0)
-            if (n_ans != 1 && n_ans != 2)
-                printf ("Test number %d - OK\n", i+1);
-            else
-                printf ("Test number %d - ERROR\n", i+1);
+            printf ("Test number %3d - OK\n", i+1);
+        else
+        {
+            printf ("Test number %3d - ERROR\n", i+1);
+            printf ("In: a=%lg b=%lg c=%lg\n", tests[i][0], tests[i][1], tests[i][2]);
+            printf ("Expected out: x1=%lg x2=%lg n_roots=%d\n", tests[i][3], tests[i][4], tests[i][5]);
+            printf ("Real     out: x1=%lg x2=%lg n_roots=%d\n\n", x1, x2, n_ans);
+        }
     }
 }
 
-double round_6(double volume)
-{
-    double multi_volume = (volume * 1000000);
-    int int_multi_volume = multi_volume;
-
-    multi_volume = int_multi_volume;
-    multi_volume = multi_volume / 1000000;
-
-    return (multi_volume);
-}
