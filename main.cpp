@@ -28,24 +28,24 @@ enum ROOTS {
 
 
 /**
-\brief Проверяет значения на то, принадлежат ли они NAN
-\param 1е значение
-\param 2е значение
-\param 3е значение
-*/
-int input_check (double a, double b, double c);
-
-/**
 \brief Сравнивает значение c 0
 \param Значение, сравниваемое с 0
 */
 int cmp_with_0 (double value);
 
 /**
+\brief Считывает значения с их проверкой
+\param a первое значение
+\param b первое значение
+\param c первое значение
+*/
+int clever_input(double* a, double* b, double* c);
+
+/**
 \brief Решает линейную функицю вида bx+c=0
-\param значенbt a
 \param значение b
-\param номер ячейки, в которую будет сослан ответ
+\param значение c
+\param *x1 номер ячейки, в которую будет сослан ответ
 */
 int linear_equation (double b, double c, double* x1);
 
@@ -54,16 +54,16 @@ int linear_equation (double b, double c, double* x1);
 \param значение a
 \param значение b
 \param значение c
-\param номер ячейки, в которую будет сослан ответ.
-\param номер ячейки, в которую будет сослан ответ.
+\param *x1 значение номер ячейки, в которую будет сослан ответ
+\param *x2 значение номер ячейки, в которую будет сослан ответ.
 */
 int quadratic_equation (double a, double b, double c, double* x1, double* x2);
 
 /**
 \brief Считает дискриминант квадратного уравнения вида ax^2+bx+c=0
-\param - значение a
-\param - значение b
-\param - значение c
+\param значение a
+\param значение b
+\param значение c
 */
 double discriminant (double a, double b, double c);
 
@@ -93,14 +93,9 @@ int main ()
 
     printf ("Bozhik Nikolai presents:\nQuadratic equation solver (2021)\n");
     printf ("Give a b c to solve ax^2+bx+c=0\n");
-    scanf ("%lg %lg %lg", &a, &b, &c);
 
-    if (input_check (a, b, c) == 0)
-    {
-        printf ("Wrong input");
-        clear_input ();
+    if (clever_input(&a, &b, &c) != 3)
         return -1;
-    }
 
     int value_quadratic = quadratic_equation (a, b, c, &x1, &x2);
 
@@ -123,14 +118,36 @@ int main ()
     return 0;
 }
 
-int input_check (double a, double b, double c)
-{
-    return (isfinite (a) || isfinite (b) || isfinite (c));
-}
-
 int cmp_with_0 (double value)
 {
     return (fabs (value) < ALMOST_0);
+}
+
+int clever_input(double* a, double* b, double* c)
+{
+    assert (a != NULL);
+    assert (b != NULL);
+    assert (c != NULL);
+    assert (a != b && a != c && b != c);
+
+    double abc[3];
+    for (int i = 0; i < 3; i++)
+    {
+        double in = NAN;
+        scanf ("%lg", &in);
+        if (!isfinite (in))
+        {
+            printf ("\nWrong input\n");
+            clear_input ();
+            return -1;
+        }
+        abc[i] = in;
+    }
+
+    *a = abc[0];
+    *b = abc[1];
+    *c = abc[2];
+    return 3;
 }
 
 int linear_equation (double b, double c, double* x1)
@@ -163,6 +180,7 @@ int quadratic_equation(double a, double b, double c, double* x1, double* x2)
     assert (x2 != NULL);
 
     double discr = discriminant (a, b, c);
+    //printf("%lg\n", discr);
 
     if (cmp_with_0 (a))
         return linear_equation (b, c, x1);
@@ -183,7 +201,7 @@ int quadratic_equation(double a, double b, double c, double* x1, double* x2)
 
 double discriminant (double a, double b, double c)
 {
-    return b * b - 4 * a * c;
+    return (b * b - 4 * a * c);
 }
 
 int unit_test()
@@ -197,7 +215,7 @@ int unit_test()
         {1,  12, 12, -1.10102,   -10.899,  2}, // 6
         {2,  5,  3,  -1,            -1.5,  2}, // 7
         {12, 23, 11, -0.916667,       -1,  2}, // 8
-        {1,  4,  4,  -2,               0,  1}, // 9
+        {0,  5,  3,  -1.66667,         0,  1}, // 9
         {3,  65, 32, -0.504033, -21.1626,  2}  // 10
     };//a,b,c,x1,x2,n_ans
 
@@ -223,4 +241,3 @@ int unit_test()
         }
     }
 }
-
