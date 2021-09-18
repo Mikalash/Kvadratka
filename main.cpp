@@ -131,9 +131,9 @@ int clever_input(double* a, double* b, double* c)
     assert (a != b && a != c && b != c);
 
     int numb_in = -1;
-    int aa = NAN;
-    int bb = NAN;
-    int cc = NAN;
+    double aa = NAN;
+    double bb = NAN;
+    double cc = NAN;
     char scan_end = NAN;
 
     numb_in = scanf ("%lg %lg %lg", &aa, &bb, &cc);
@@ -182,7 +182,6 @@ int quadratic_equation(double a, double b, double c, double* x1, double* x2)
     assert (x2 != NULL);
 
     double discr = discriminant (a, b, c);
-    //printf("%lg\n", discr);
 
     if (cmp_with_0 (a))
         return linear_equation (b, c, x1);
