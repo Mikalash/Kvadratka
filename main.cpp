@@ -82,7 +82,7 @@ int unit_test();
 
 int main ()
 {
-    unit_test();
+    //unit_test();
 
     double a = NAN;
     double b = NAN;
@@ -130,23 +130,24 @@ int clever_input(double* a, double* b, double* c)
     assert (c != NULL);
     assert (a != b && a != c && b != c);
 
-    double abc[3];
-    for (int i = 0; i < 3; i++)
+    int numb_in = -1;
+    int aa = NAN;
+    int bb = NAN;
+    int cc = NAN;
+    int scan_end = NAN;
+
+    numb_in = scanf ("%lg %lg %lg %d", &aa, &bb, &cc, &scan_end);
+
+    if (!isfinite (aa) || !isfinite (bb) || !isfinite (cc) || numb_in != 3 || scan_end != '\n')
     {
-        double in = NAN;
-        scanf ("%lg", &in);
-        if (!isfinite (in))
-        {
-            printf ("\nWrong input\n");
-            clear_input ();
-            return -1;
-        }
-        abc[i] = in;
+        printf ("\nWrong input\n");
+        clear_input ();
+        return -1;
     }
 
-    *a = abc[0];
-    *b = abc[1];
-    *c = abc[2];
+    *a = aa;
+    *b = bb;
+    *c = cc;
     return 3;
 }
 
@@ -241,3 +242,4 @@ int unit_test()
         }
     }
 }
+
